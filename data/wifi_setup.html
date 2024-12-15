@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<title>Настройка Wi-Fi</title>
+<link rel="stylesheet" href="style.css">
+<script src="script.js" defer></script>
+</head>
+<body class="light-theme">
+<!-- 
+Captive Portal страница:
+- Используем такой же фон, как и для main, т.к. отдельного фона не дано
+- Покажем панель с блюром для ввода SSID/пароля
+-->
+<div class="page-container">
+  <div class="wifi-setup-container">
+    <h1>Подключение к Wi-Fi</h1>
+    <form method="POST" action="/save_wifi">
+      <input type="text" name="ssid" placeholder="Имя сети (SSID)" required><br>
+      <input type="password" name="pass" placeholder="Пароль" required><br><br>
+      <input type="submit" value="Сохранить" onmousedown="playSound('button_click.mp3')">
+    </form>
+    <p>После сохранения устройство перезагрузится и попытается подключиться к указанной сети.</p>
+  </div>
+</div>
+
+<div class="toast"></div>
+<div class="modal" id="commonModal">
+  <div class="modal-content">
+    <div class="icon-text">
+      <img src="/images/icons/notification_icon.png" alt="icon" id="modal-icon">
+      <span id="modal-message">Сообщение</span>
+    </div>
+    <div class="modal-buttons" id="modal-buttons"></div>
+  </div>
+</div>
+</body>
+</html>

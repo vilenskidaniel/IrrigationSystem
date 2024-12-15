@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Авторизация</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="light-theme">
+<div class="page-container">
+  <div class="content-blur-panel wifi-setup-panel">
+    <h1 class="setup-title">Авторизация</h1>
+    <p>Логин и пароль чувствительны к регистру.</p>
+    <form method="POST" action="/login" class="wifi-form">
+      <input type="text" name="username" class="input-field" placeholder="Логин" required>
+      <input type="password" name="password" class="input-field" placeholder="Пароль" required>
+      <button type="submit" class="menu-btn">Войти</button>
+    </form>
+    <div class="error-message" id="error-message" style="display:none;"></div>
+    <p class="instruction-text">Если страница закрылась, подключитесь к Wi-Fi <strong>IrrigationSystem_Setup</strong> и откройте <strong>http://192.168.4.1/login.html</strong>.</p>
+  </div>
+</div>
+</body>
+</html>

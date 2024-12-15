@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<title>Система полива</title>
+<link rel="stylesheet" href="style.css">
+<script src="script.js" defer></script>
+</head>
+<body class="light-theme watering-page">
+<!-- 
+Система полива:
+- Фон: background_watering.jpg
+- Кнопка назад
+- 5 слотов (5 строк), в каждом слоте 6 строк(=параметров?): Уточнялось, что 6-я строка — состояние растения.
+  Но в предыдущих описаниях говорилось о 5 параметрах (температура, влажность воздуха, влажность почвы, освещённость, кислотность) + состояние. Итого 6 параметров.
+  Иконки параметров 25x25.
+- Левый столбец: картинка растения 200x200 или "+"
+- Центральный столбец: текущие данные, справа от иконок цифры или прочерк
+- Правый столбец: рекомендованные данные, статичные.
+- Состояние растения (6-я строка) растягивается на центральный и правый столбец. Показывает индикатор статуса цветом.
+-->
+
+<div class="page-container">
+  <button class="back-btn" onmousedown="playSound('button_click.mp3')" onclick="goBack()">← Назад</button>
+
+  <div class="content-blur-panel" style="overflow:auto; max-height:80vh;">
+    <h1 style="display:none;">Система полива</h1>
+    <div class="plants-table">
+      <!-- Пример одного слота (из 5) -->
+      <!-- data-slot="1" для идентификации -->
+
+      <!-- Каждая строка (слот) — flex с 3 столбцами:
+           Колонки можно оформить вложенными div:
+           - Левый: img растения (200x200)
+           - Центральный: 5 иконок параметров + их значения под ними (стек сверху вниз)
+           - Правый: те же иконки, но рекомендованные параметры
+           - 6-я строка (состояние) будет внизу, может быть отдельным div,
+             растягивающимся на 2 столбца (центральный+правый).
+       -->
+       <!-- Слот №1 (пример) -->
+       <div class="plant-row" data-slot="1" style="border:2px solid blue;">
+         <div class="plant-cell-left">
+           <img src="/no_image.png" class="plant-img" alt="no image"
+                data-tooltip="Нажмите и удерживайте, чтобы увидеть подсказку">
+         </div>
+         <div class="plant-cell-center">
+           <div class="param-row">
+             <img src="/images/icons/temp_icon.png" class="param-icon" alt="temp">
+             <span class="param-value">—</span>
+           </div>
+           <div class="param-row">
+             <img src="/images/icons/humidity_icon.png" class="param-icon" alt="humidity">
+             <span class="param-value">—</span>
+           </div>
+           <div class="param-row">
+             <img src="/images/icons/soil_moisture_icon.png" class="param-icon" alt="soil moisture">
+             <span class="param-value">—</span>
+           </div>
+           <div class="param-row">
+             <img src="/images/icons/light_icon.png" class="param-icon" alt="light">
+             <span class="param-value">—</span>
+           </div>
+           <div class="param-row">
+             <img src="/images/icons/ph_icon.png" class="param-icon" alt="ph">
+             <span class="param-value">—</span>
+           </div>
+           <!-- 6-я строка (состояние растения), растягивается на центр+право -->
+           <div class="param-row state-row">
+             <img src="/images/icons/status_icon.png" class="param-icon" alt="status">
+             <span class="param-value">Статус: Норма</span>
+           </div>
+         </div>
+         <div class="plant-cell-right">
+           <!-- Рекомендованные значения (те же иконки и порядок) -->
+           <div class="param-row">
+             <img src="/images/icons/temp_icon.png" class="param-icon" alt="temp">
+             <span class="param-value">18-24°C</span>
+           </div>
+           <div class="param-row">
+             <img src="/images/icons/humidity_icon.png" class="param-icon" alt="humidity">
+             <span class="param-value">30-50%</span>
+           </div>
+           <div class="param-row">
+             <img src="/images/icons/soil_moisture_icon.png" class="param-icon" alt="soil moisture">
+             <span class="param-value">20-40%</span>
+           </div>
+           <div class="param-row">
+             <img src="/images/icons/light_icon.png" class="param-icon" alt="light">
+             <span class="param-value">10000-20000 lx</span>
+           </div>
+           <div class="param-row">
+             <img src="/images/icons/ph_icon.png" class="param-icon" alt="ph">
+             <span class="param-value">6.0-7.5 pH</span>
+           </div>
+           <!-- Состояние справа не дублируем, оно единое. Но если надо показать растянутость:
+                Можно сделать так, чтобы state-row занимала место и в правом столбце (но это сложнее в верстке).
+                Упростим: state-row отображается только в центре, но логически относится к обоим.
+           -->
+        </div>
+      </div>
+
+      <!-- Повторить аналогично для остальных 4 слотов -->
+      <!-- Если слот не активен - серый border, если пуст - плюс вместо растения -->
+    </div>
+  </div>
+</div>
+
+<div class="toast"></div>
+<div class="modal" id="commonModal">
+  <div class="modal-content">
+    <div class="icon-text">
+      <img src="/images/icons/notification_icon.png" alt="icon" id="modal-icon">
+      <span id="modal-message">Сообщение</span>
+    </div>
+    <div class="modal-buttons" id="modal-buttons"></div>
+  </div>
+</div>
+</body>
+</html>

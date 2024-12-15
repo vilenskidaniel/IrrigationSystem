@@ -1,0 +1,351 @@
+/* style.css
+   Общие стили для всех страниц.
+   Учитываем:
+   - Фон: каждая страница имеет свой фон (предполагается, что HTML добавит class для конкретной страницы или
+     мы можем использовать body:after для установки фона).
+   - Все элементы поверх фона получают backdrop-filter: blur и полупрозрачный фон.
+   - Кнопки при нажатии подсвечиваются.
+   - Модальные окна, toast, tooltip
+   - connecting_spinner в правом нижнем углу при переходах
+*/
+
+/* Основной фон для всех страниц – установим по умолчанию background_main.jpg.
+   Для других страниц можно в их собственном HTML-body добавить класс, например class="settings-page"
+   и в css сделать:
+   body.settings-page {
+     background-image: url('/images/backgrounds/background_settings.jpg');
+   }
+   Аналогично для watering.
+*/
+body {
+  margin: 0; padding: 0;
+  font-family: sans-serif;
+  width:100vw; height:100vh;
+  background: url('/images/backgrounds/background_main.jpg') no-repeat center center fixed;
+  background-size: cover;
+  color: #000000;
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-user-select: none;  /* блокировка выделения */
+  -webkit-touch-callout: none;
+}
+
+.user-select-none {
+  -webkit-user-select: none; /* Safari */
+  -moz-user-select: none;    /* Firefox */
+  -ms-user-select: none;     /* Internet Explorer/Edge */
+  user-select: none;         /* Standard */
+}
+
+
+body.light-theme {
+  /* при светлой теме текст чёрный, элементы фоновые светлые */
+  color: #000;
+}
+
+body.dark-theme {
+  /* при тёмной теме текст белый */
+  color: #fff;
+  /* Можно затемнить общий фон путём дополнительного overlay */
+}
+
+/* Специальные классы для фонов других страниц */
+body.settings-page {
+  background: url('/images/backgrounds/background_settings.jpg') no-repeat center center fixed;
+  background-size: cover;
+}
+body.watering-page {
+  background: url('/images/backgrounds/background_watering.jpg') no-repeat center center fixed;
+  background-size: cover;
+}
+
+/* Элемент-контейнер для основной части страницы */
+.page-container {
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  width:100vw; height:100vh;
+  background: url('/images/backgrounds/background_main.jpg') no-repeat center center fixed;
+  background-size: cover;
+  margin:0; padding:0;
+}
+
+.content-panel {
+  background:#fff;
+  border:1px solid #ccc;
+  border-radius:5px;
+  padding:2em;
+  width:300px;
+  text-align:center;
+}
+
+/* Кнопка назад */
+.back-btn {
+  position: absolute;
+  top:10px; left:10px;
+  background: rgba(255,255,255,0.3);
+  backdrop-filter: blur(5px);
+  border:none; border-radius:10px;
+  padding:0.5em 1em;
+  font-size:1em;
+  color:inherit;
+}
+.back-btn:active {
+  background: rgba(0,255,0,0.3); /* зелёный при нажатии */
+}
+
+/* Общая панель с контентом (с блюром) */
+.content-blur-panel {
+  background: rgba(255,255,255,0.3);
+  backdrop-filter: blur(10px);
+  padding:2em;
+  border-radius:10px;
+  max-width:90%;
+  box-sizing:border-box;
+  text-align:center;
+  border-radius: 15px;
+}
+
+/* Кнопки меню, управления */
+.menu-btn, .control-btn {
+  background: rgba(224,224,224,0.7);
+  backdrop-filter: blur(5px);
+  border:none;
+  border-radius:10px;
+  padding:1em;
+  margin:0.5em 0;
+  text-decoration:none;
+  color:inherit;
+  font-size:1.2em;
+  width:80%;
+  max-width:300px;
+}
+
+.menu-btn:active {
+  background: rgba(0, 200, 83, 0.8);
+}
+
+/* Заблокированная кнопка (например, .disabled для заблокированных) */
+.menu-btn.disabled, .control-btn.disabled {
+  background: rgba(255,0,0,0.3);
+}
+.menu-btn.disabled:active, .control-btn.disabled:active {
+  /* при нажатии красный цвет уже есть */
+  background-color: grey;   /* Серый фон для неактивных кнопок */
+  cursor: not-allowed;        /* Изменение курсора при наведении */
+  opacity: 0.6;               /* Снижение прозрачности */
+}
+
+/* Toast */
+.toast {
+  position: fixed; bottom: 10%; left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0,0,0,0.8);
+  color: #fff;
+  padding:1em;
+  border-radius:5px;
+  display:none;
+  z-index:9999;
+  backdrop-filter: blur(5px);
+}
+
+/* Модальное окно */
+.modal {
+  position: fixed; top:0; left:0; right:0; bottom:0;
+  background: rgba(0,0,0,0.5);
+  display:flex; justify-content:center; align-items:center;
+  display:none;
+  z-index:9998;
+}
+
+.modal-content {
+  background: rgba(255,255,255,0.8);
+  backdrop-filter: blur(10px);
+  border-radius:10px;
+  padding:2em;
+  width:80%; max-width:400px;
+  text-align:center;
+  color:#000;
+}
+
+.icon-text {
+  display:flex; 
+  align-items:center; 
+  gap:1em; 
+  margin-bottom:1em;
+  justify-content: center;
+}
+
+.icon-text img {
+  width:40px; height:40px; border-radius:50%;
+}
+
+.modal-buttons {
+  display:flex; justify-content:space-around; gap:1em;
+}
+
+.modal-buttons button {
+  background: rgba(224,224,224,0.7);
+  backdrop-filter: blur(5px);
+  border:none; border-radius:10px;
+  padding:0.5em 1em;
+}
+
+/* Tooltip */
+.tooltip {
+  position:absolute;
+  background: rgba(0,0,0,0.8);
+  backdrop-filter: blur(5px);
+  color:#fff;
+  padding:0.5em;
+  border-radius:5px;
+  pointer-events:none;
+  z-index:9999;
+  font-size:0.9em;
+}
+
+/* Спиннер при переходах */
+.connecting-spinner {
+  position: fixed;
+  right:10px; bottom:10px;
+  width:200px; height:200px;
+  display:flex; justify-content:center; align-items:center;
+  background: rgba(0,0,0,0.3);
+  backdrop-filter: blur(5px);
+  border-radius:10px;
+  z-index:9999;
+}
+.connecting-spinner .spinner-frame img {
+  width:180px; height:180px;
+}
+
+/* fpv-video */
+.fpv-video {
+  width:80%; max-width:600px;
+  border-radius:10px;
+  margin:1em 0;
+  background:#ccc;
+  backdrop-filter:blur(5px);
+}
+
+.turret-controls {
+  display:flex; gap:0.5em; justify-content:center; align-items:center;
+}
+
+/* Для wifi_setup.html специфический стиль */
+.wifi-setup-container {
+  background: rgba(255,255,255,0.3);
+  backdrop-filter: blur(10px);
+  padding:2em;
+  border-radius:10px;
+  max-width:300px;
+  text-align:center;
+  width:80%;
+  box-sizing:border-box;
+  color:#000;
+  margin:0 auto;
+}
+
+input {
+  padding:0.5em; margin:0.5em; width:80%;
+  border:none; border-radius:5px;
+  backdrop-filter: blur(5px);
+  background: rgba(255,255,255,0.6);
+  color:#000;
+}
+
+input[type=submit] {
+  background: rgba(224,224,224,0.7);
+  border:none; border-radius:10px;
+  padding:0.5em 1em;
+}
+input[type=submit]:active {
+  background: rgba(0,255,0,0.3);
+}
+
+wifi-setup-panel {
+  max-width: 400px;
+  text-align: center;
+  padding: 2em;
+  margin: 0 auto;
+}
+
+.setup-title {
+  font-size: 1.5em;
+  margin-bottom: 1.5em;
+  color: #333;
+}
+
+.wifi-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  width:100%;
+}
+
+.input-field {
+  background: #fff;
+  backdrop-filter: blur(5px);
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 1em;
+  font-size: 1em;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.input-field:focus {
+  outline: none;
+  border: 2px solid #4CAF50;
+}
+
+.menu-btn {
+  background: #4CAF50; /* зелёный цвет */
+  width:100%;
+  border:1px solid #ccc;
+  border-radius: 8px;
+  padding: 0.8em;
+  font-size: 1em;
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.menu-btn:active {
+  background: rgba(0,255,0,0.3);
+}
+
+.error-message {
+  font-size:0.9em;
+  text-align:center;
+  color: red;
+  margin-top: 1em;
+}
+
+.menu-btn:hover {
+  background: rgba(76, 175, 80, 1);
+}
+
+.success-panel {
+  max-width: 400px;
+  text-align: center;
+  padding: 2em;
+  margin: 0 auto;
+}
+
+.status-icon {
+  width: 40px;
+  height: 40px;
+}
+
+.success-message {
+  font-size: 1.5em;
+  font-weight: bold;
+  color: #4CAF50;
+}
+
+.wifi-setup-panel {
+  max-width: 400px;
+  text-align: center;
+}
+

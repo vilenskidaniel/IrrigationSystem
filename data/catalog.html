@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<title>Каталог</title>
+<link rel="stylesheet" href="style.css">
+<script src="script.js" defer></script>
+</head>
+<body class="light-theme">
+<!-- 
+Страница каталога:
+- Фон: background_main.jpg
+- Кнопка назад (в левом верхнем углу)
+- Поле поиска сверху, при вводе AJAX подгружает варианты
+- Ниже список категорий/растений в виде слотов 200x200, скроллинг вверх-вниз
+- При выборе растения всплывающая модалка "Выбрать растение?"
+  Если Да – переход на watering.html с обновлёнными данными
+  Если Нет – остаёмся
+- Кнопка фильтры (при необходимости) – модалка с фильтром
+-->
+
+<div class="page-container">
+  <button class="back-btn" onmousedown="playSound('button_click.mp3')" onclick="goBack()">← Назад</button>
+
+  <div class="content-blur-panel">
+    <h1>Каталог растений</h1>
+    <div class="search-box">
+      <input type="text" id="search" placeholder="Поиск растений..." oninput="searchPlants(this.value)" onmousedown="playSound('button_click.mp3')">
+      <div id="suggestions" class="suggestions"></div>
+    </div>
+
+    <button class="menu-btn" onmousedown="playSound('button_click.mp3')" onclick="showFilterModal()">Фильтры</button>
+
+    <div id="plants-list" class="plants-list" style="max-height:400px; overflow:auto; margin-top:1em;">
+      <!-- Пример категорий/растений (слоты 200x200) -->
+      <!-- mock данные, скрипт обновит -->
+      <div class="category-item" onmousedown="playSound('button_click.mp3')" data-plant-id="decorative1" onclick="selectPlant('decorative1')">
+        <img src="/no_image.png" class="cat-image" alt="cover">
+        <div class="cat-text">
+          <strong>Бонсай</strong><br>
+          Миниатюрные деревья
+        </div>
+      </div>
+      <!-- Другие категории аналогично -->
+    </div>
+  </div>
+</div>
+
+<div class="toast"></div>
+<div class="modal" id="commonModal">
+  <div class="modal-content">
+    <div class="icon-text">
+      <img src="/images/icons/notification_icon.png" alt="icon" id="modal-icon">
+      <span id="modal-message">Сообщение</span>
+    </div>
+    <div class="modal-buttons" id="modal-buttons"></div>
+  </div>
+</div>
+
+<!-- Модалка фильтров -->
+<div class="modal" id="filterModal">
+  <div class="modal-content">
+    <div class="icon-text">
+      <img src="/images/icons/question_icon.png" alt="icon">
+      <span>Выберите параметры фильтра</span>
+    </div>
+    <!-- Параметры фильтров: sliders, checkboxes... -->
+    <div style="text-align:left;">
+      <p>Влажность почвы: <input type="range" min="0" max="100"></p>
+      <p>Температура: <input type="range" min="0" max="40"></p>
+      <!-- и т.д. -->
+    </div>
+    <div class="modal-buttons">
+      <button onmousedown="playSound('button_click.mp3')" onclick="applyFilters()">Применить</button>
+      <button onmousedown="playSound('button_click.mp3')" onclick="clearFilters()">Очистить</button>
+      <button onmousedown="playSound('button_click.mp3')" onclick="closeFilterModal()">Отмена</button>
+    </div>
+  </div>
+</div>
+</body>
+</html>

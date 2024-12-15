@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<title>Моя Система Орошения</title>
+<link rel="stylesheet" href="style.css">
+<script src="script.js" defer></script>
+</head>
+<body class="light-theme">
+<!-- 
+Главная страница:
+- Фон: background_main.jpg (по умолчанию)
+- Нет кнопки назад
+- 5 кнопок: Турель, Система полива, Видеотека, Каталог, Настройки
+- Видеотека заблокирована, если турель не подключена
+- Каталог заблокирован, если система полива не активна (если такой сценарий предусмотрен)
+- В правом верхнем углу: иконка статуса (25x25) и иконка языка (флаг 50x50)
+  При нажатии на флаг выпадающий список выбора языка
+- При нажатии на кнопки – звук button_click.mp3
+-->
+
+<div class="page-container">
+  <!-- Иконка статуса системы (например, квадрат 25x25)
+       меняет цвет в зависимости от худшего датчика.
+       Здесь просто img c src="/images/icons/status_icon.png", 
+       при необходимости скрипт заменит src.
+  -->
+  <div class="top-right-panel">
+    <img src="/images/icons/status_icon.png" alt="status" class="status-icon" 
+         data-tooltip="Состояние системы" onmousedown="playSound('button_click.mp3')">
+
+    <div class="language-selector">
+      <img src="/images/icons/flag_ru.png" alt="flag" class="language-flag" onmousedown="playSound('button_click.mp3')" onclick="toggleLanguageDropdown()">
+      <div class="language-dropdown" id="lang-dropdown" style="display:none;">
+        <div onclick="changeLanguage('ru');hideLanguageDropdown()">Русский</div>
+        <div onclick="changeLanguage('en');hideLanguageDropdown()">English</div>
+        <div onclick="changeLanguage('he');hideLanguageDropdown()">עברית</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="content-blur-panel" style="max-width:300px;">
+    <h1 style="display:none;">Моя Система Орошения</h1>
+    <!-- согласно требованиям, нет текстового оглавления сверху -->
+
+    <button class="menu-btn" onmousedown="playSound('button_click.mp3')" onclick="navigateTo('/turret.html')">Турель</button>
+    <button class="menu-btn" onmousedown="playSound('button_click.mp3')" onclick="navigateTo('/watering.html')">Система полива</button>
+    <!-- Видеотека заблокирована, если турель не подключена -->
+    <button class="menu-btn disabled" onmousedown="playSound('error_sound.mp3')" 
+            onclick="showModal('Турель не подключена. Видеотека недоступна.', 'warning')">Видеотека</button>
+    <!-- Каталог может быть тоже заблокирован, если система полива не активна:
+         Но в условии сказано, что система полива активна, т.к. ESP работает.
+         Если хотим, можем разблокировать:
+    -->
+    <button class="menu-btn" onmousedown="playSound('button_click.mp3')" onclick="navigateTo('/catalog.html')">Каталог</button>
+    <button class="menu-btn" onmousedown="playSound('button_click.mp3')" onclick="navigateTo('/settings.html')">Настройки</button>
+  </div>
+</div>
+
+<div class="toast"></div>
+<div class="modal" id="commonModal">
+  <div class="modal-content">
+    <div class="icon-text">
+      <img src="/images/icons/notification_icon.png" alt="icon" id="modal-icon">
+      <span id="modal-message">Сообщение</span>
+    </div>
+    <div class="modal-buttons" id="modal-buttons"></div>
+  </div>
+</div>
+</body>
+</html>

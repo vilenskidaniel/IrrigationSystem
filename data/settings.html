@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<title>Настройки</title>
+<link rel="stylesheet" href="style.css">
+<script src="script.js" defer></script>
+</head>
+<body class="light-theme settings-page">
+<!-- 
+Страница настроек в стиле android:
+- Фон: background_settings.jpg
+- Кнопка назад
+- Категории настроек: 
+  - Сеть: Изменить Wi-Fi (кнопка -> вопрос)
+  - Уведомления: Telegram настройки (IP, токен), типы уведомлений (тумблеры)
+  - Тема: тумблер светлая/тёмная
+  - Звуки: список звуков с тумблерами
+  - Смена языка: выпадающий список
+  - Время уведомления: выбор времени (может быть выпадающий список)
+  - Сброс настроек: кнопка -> вопрос
+-->
+
+<div class="page-container">
+  <button class="back-btn" onmousedown="playSound('button_click.mp3')" onclick="goBack()">← Назад</button>
+
+  <div class="content-blur-panel" style="text-align:left;">
+    <h1>Настройки</h1>
+
+    <h2>Сеть</h2>
+    <div class="setting-item">
+      <strong>Изменить Wi-Fi</strong><br>
+      <span class="setting-desc">Перейти в режим настройки сети</span>
+      <button class="menu-btn" onmousedown="playSound('button_click.mp3')" onclick="reconfigureWiFi()">Изменить</button>
+    </div>
+
+    <h2>Уведомления</h2>
+    <div class="setting-item">
+      <strong>Telegram интеграция</strong><br>
+      <span class="setting-desc">Ввести токен и chat_id</span>
+      <input type="text" placeholder="Telegram Token" onmousedown="playSound('button_click.mp3')">
+      <input type="text" placeholder="Chat ID" onmousedown="playSound('button_click.mp3')">
+      <!-- При изменении сразу сохраняется -->
+    </div>
+    <div class="setting-item">
+      <strong>Время уведомлений</strong><br>
+      <span class="setting-desc">Время отправки утренних уведомлений</span>
+      <input type="time" value="07:00" onmousedown="playSound('button_click.mp3')" onchange="/*сразу применить*/">
+    </div>
+    <div class="setting-item">
+      <strong>Типы уведомлений</strong><br>
+      <span class="setting-desc">Выберите какие звуки и оповещения использовать</span>
+      <label class="toggle-container">
+        <span>Crit Dryness</span>
+        <input type="checkbox" checked onmousedown="playSound('button_click.mp3')" onchange="/*применить*/">
+      </label>
+      <label class="toggle-container">
+        <span>Watering Success</span>
+        <input type="checkbox" checked onmousedown="playSound('button_click.mp3')" onchange="/*применить*/">
+      </label>
+      <!-- И так далее -->
+    </div>
+
+    <h2>Тема</h2>
+    <div class="setting-item">
+      <strong>Тёмная тема</strong><br>
+      <span class="setting-desc">Переключение светлой/тёмной темы</span>
+      <label class="toggle-container">
+        <span>Тёмная тема</span>
+        <input type="checkbox" onmousedown="playSound('button_click.mp3')" onchange="toggleTheme()">
+      </label>
+    </div>
+
+    <h2>Язык</h2>
+    <div class="setting-item">
+      <strong>Смена языка</strong><br>
+      <span class="setting-desc">Выберите язык интерфейса</span>
+      <select onmousedown="playSound('button_click.mp3')" onchange="changeLanguage(this.value)">
+        <option value="ru">Русский</option>
+        <option value="en">English</option>
+        <option value="he">עברית</option>
+      </select>
+    </div>
+
+    <h2>Сброс настроек</h2>
+    <div class="setting-item">
+      <strong>Сбросить все настройки</strong><br>
+      <span class="setting-desc">Вернуть систему к заводским настройкам</span>
+      <button class="menu-btn" onmousedown="playSound('button_click.mp3')" onclick="resetAll()">Сбросить</button>
+    </div>
+
+  </div>
+</div>
+
+<div class="toast"></div>
+<div class="modal" id="commonModal">
+  <div class="modal-content">
+    <div class="icon-text">
+      <img src="/images/icons/notification_icon.png" alt="icon" id="modal-icon">
+      <span id="modal-message">Сообщение</span>
+    </div>
+    <div class="modal-buttons" id="modal-buttons"></div>
+  </div>
+</div>
+</body>
+</html>

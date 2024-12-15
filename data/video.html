@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<title>Видеотека</title>
+<link rel="stylesheet" href="style.css">
+<script src="script.js" defer></script>
+</head>
+<body class="light-theme">
+<!-- 
+Страница видеотеки:
+- Фон: background_main.jpg (по умолчанию для страниц без особого фона)
+- Верхний левый угол: кнопка назад (так как не главная страница)
+- Центральная часть: текст или список видео при подключении турели
+- Если турель не подключена, при загрузке скрипт покажет предупреждение или заблокирует доступ
+-->
+
+<div class="page-container">
+  <!-- Кнопка назад в левом верхнем углу -->
+  <button class="back-btn" onclick="goBack()" onmousedown="playSound('button_click.mp3')">
+    ← Назад
+  </button>
+  
+  <div class="content-blur-panel">
+    <h1>Видеотека</h1>
+    <p>Здесь будут отображаться видеозаписи с срабатываний турели. Если турель не подключена, эта функция недоступна.</p>
+    <p id="video-status">Проверка подключения турели...</p>
+    <!-- Позже скрипт обновит это поле. Если турель подключена:
+         Появится список видео (например, динамически подгружаемый).
+         Если нет – всплывающее окно с предупреждением.
+    -->
+  </div>
+</div>
+
+<!-- Toast для коротких сообщений -->
+<div class="toast"></div>
+
+<!-- Модальное окно стандартизированное -->
+<div class="modal" id="commonModal">
+  <div class="modal-content">
+    <div class="icon-text">
+      <!-- Иконка будет подставляться скриптом -->
+      <img src="/no_image.png" alt="icon" id="modal-icon">
+      <span id="modal-message">Сообщение</span>
+    </div>
+    <div class="modal-buttons" id="modal-buttons"></div>
+  </div>
+</div>
+</body>
+</html>

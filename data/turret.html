@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no">
+<title>Турель FPV</title>
+<link rel="stylesheet" href="style.css">
+<script src="script.js" defer></script>
+</head>
+<body class="light-theme">
+<!-- 
+Страница турели:
+- Фон: background_main.jpg по умолчанию.
+- Верхний левый угол: кнопка назад
+- Предполагается, что логика FPV из raspberry, 
+  мы просто показываем пример места для видеопотока.
+- При недоступности турели можно вывести предупреждение.
+-->
+
+<div class="page-container">
+  <button class="back-btn" onclick="goBack()" onmousedown="playSound('button_click.mp3')">← Назад</button>
+
+  <div class="content-blur-panel">
+    <h1>Турель FPV</h1>
+    <p>Видеопоток турели и управление по локальной сети.</p>
+    <!-- Имитируем видео:
+         В реальности будет mjpeg или rtsp поток, 
+         здесь только img для примера -->
+    <img src="http://<IP_Raspberry_Pi>/stream" alt="Видео-поток" class="fpv-video" 
+         onmousedown="playSound('button_click.mp3')">
+    
+    <!-- Кнопки управления заменит логика raspberry, 
+         но для примера оставим:
+    -->
+    <div class="turret-controls">
+      <button class="control-btn" onmousedown="playSound('button_click.mp3');sendControlCommand('left')">←</button>
+      <button class="control-btn" onmousedown="playSound('button_click.mp3');sendControlCommand('right')">→</button>
+      <button class="control-btn" onmousedown="playSound('button_click.mp3');sendControlCommand('up')">↑</button>
+      <button class="control-btn" onmousedown="playSound('button_click.mp3');sendControlCommand('down')">↓</button>
+      <button class="control-btn" onmousedown="playSound('button_click.mp3');sendControlCommand('fire')">Fire</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast"></div>
+<div class="modal" id="commonModal">
+  <div class="modal-content">
+    <div class="icon-text">
+      <img src="/no_image.png" alt="icon" id="modal-icon">
+      <span id="modal-message">Сообщение</span>
+    </div>
+    <div class="modal-buttons" id="modal-buttons"></div>
+  </div>
+</div>
+</body>
+</html>
